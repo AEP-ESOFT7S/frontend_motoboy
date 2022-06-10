@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:verydeli/app/modules/home/home_bindings.dart';
+import 'package:verydeli/app/modules/home/home_page.dart';
 import 'package:verydeli/app/modules/login/login_bindings.dart';
 import 'package:verydeli/app/modules/login/login_page.dart';
 import 'package:verydeli/app/modules/register/register_bindings.dart';
@@ -13,5 +15,6 @@ abstract class Pages {
     GetPage(name: Routes.INITIAL, page: () => const SplashPage(), binding: SplashBindings()),
     GetPage(name: Routes.LOGIN, page: () => const LoginPage(), binding: LoginBindings()),
     GetPage(name: Routes.REGISTER, page: () => const RegisterPage(), binding: RegisterBindings()),
+    GetPage(name: Routes.HOME, page: () => const HomePage(), binding: HomeBindings()),
   ];
 }

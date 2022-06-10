@@ -14,9 +14,12 @@ class LoginPage extends GetView<LoginController> {
           child: Form(
             key: controller.formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Text('Verydeli', style: TextStyle(fontSize: 28)),
                 TextFormField(
+                  keyboardType: TextInputType.emailAddress,
                   textCapitalization: TextCapitalization.none,
                   decoration: const InputDecoration(labelText: 'Email'),
                   validator: (value) => validateEmail(value!),
@@ -25,14 +28,14 @@ class LoginPage extends GetView<LoginController> {
                 ElevatedButton(
                   onPressed: () {
                     if (controller.formKey.currentState!.validate()) {
-                      Get.toNamed('/home');
+                      Get.offAllNamed('/home');
                     }
                   },
                   child: const Text('Conectar'),
                 ),
                 TextButton(
                   onPressed: () => Get.toNamed('/register'),
-                  child: const Text('registrar-se'),
+                  child: const Text('registrar'),
                 ),
               ],
             ),
