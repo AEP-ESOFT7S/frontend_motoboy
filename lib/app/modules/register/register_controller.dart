@@ -7,8 +7,11 @@ class RegisterController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final RegisterRepository _registerRepository = RegisterRepository();
+
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController cpfController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController cepController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController neighborhoodController = TextEditingController();
@@ -17,27 +20,30 @@ class RegisterController extends GetxController {
   final TextEditingController complementController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   Future<void> register() async {
     if (formKey.currentState!.validate()) {
       await _registerRepository
-          .register(RegisterRequest(
-        firstName: firstNameController.text,
-        lastName: lastNameController.text,
-        cep: cepController.text,
-        city: cityController.text,
-        neighborhood: neighborhoodController.text,
-        address: addressController.text,
-        number: numberController.text,
-        complement: complementController.text,
-        email: emailController.text,
-        password: passwordController.text,
-      ).toJson())
+          .register(
+        RegisterRequest(
+          firstName: firstNameController.text,
+          lastName: lastNameController.text,
+          cep: cepController.text,
+          city: cityController.text,
+          neighborhood: neighborhoodController.text,
+          address: addressController.text,
+          number: numberController.text,
+          complement: complementController.text,
+          email: emailController.text,
+          password: passwordController.text,
+        ),
+      )
           .then((value) {
-        Get.toNamed('/home');
-        ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(value.result!)));
+        Get.offAllNamed('/home');
+        ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(value.message)));
       }).catchError((error) {
-        ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(error)));
+        ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(error.message)));
       });
     }
   }

@@ -1,4 +1,6 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:verydeli/app/modules/register/register_controller.dart';
 
@@ -8,88 +10,133 @@ class RegisterPage extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Registre-se')),
+      appBar: AppBar(title: const Text('Cadastro')),
       body: SafeArea(
         child: Form(
           key: controller.formKey,
           child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             children: [
               TextFormField(
                 controller: controller.firstNameController,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.name,
+                textCapitalization: TextCapitalization.words,
                 decoration: const InputDecoration(labelText: 'Nome'),
                 validator: (value) => validateNotNull(value!),
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: controller.lastNameController,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.name,
+                textCapitalization: TextCapitalization.words,
                 decoration: const InputDecoration(labelText: 'Sobrenome'),
                 validator: (value) => validateNotNull(value!),
               ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: controller.cpfController,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.name,
+                decoration: const InputDecoration(labelText: 'CPF'),
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  CpfInputFormatter(),
+                ],
+                validator: (value) => validateNotNull(value!),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: controller.phoneController,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.name,
+                decoration: const InputDecoration(labelText: 'Telefone'),
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  TelefoneInputFormatter(),
+                ],
+                validator: (value) => validateNotNull(value!),
+              ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: controller.cepController,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(labelText: 'CEP'),
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  CepInputFormatter(ponto: false),
+                ],
                 validator: (value) => validateNotNull(value!),
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: controller.cityController,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(labelText: 'Cidade'),
+                textCapitalization: TextCapitalization.sentences,
                 validator: (value) => validateNotNull(value!),
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: controller.neighborhoodController,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(labelText: 'Bairro'),
+                textCapitalization: TextCapitalization.sentences,
                 validator: (value) => validateNotNull(value!),
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: controller.addressController,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.streetAddress,
                 decoration: const InputDecoration(labelText: 'Logradouro'),
+                textCapitalization: TextCapitalization.sentences,
                 validator: (value) => validateNotNull(value!),
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: controller.numberController,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(labelText: 'Número'),
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: (value) => validateNotNull(value!),
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: controller.complementController,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(labelText: 'Complemento'),
-                validator: (value) => validateNotNull(value!),
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: controller.emailController,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(labelText: 'Email'),
                 validator: (value) => validateEmail(value!),
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: controller.passwordController,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 obscureText: true,
                 decoration: const InputDecoration(labelText: 'Senha'),
-                validator: (value) => validateNotNull(value!),
+                validator: (value) => validatePassword(value!),
               ),
+              const SizedBox(height: 10),
               TextFormField(
-                textInputAction: TextInputAction.go,
+                controller: controller.confirmPasswordController,
                 obscureText: true,
+                textInputAction: TextInputAction.done,
                 decoration: const InputDecoration(labelText: 'Confirmar senha'),
-                validator: (value) => validateNotNull(value!),
+                validator: (value) => validatePassword(value!),
               ),
+              const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () => controller.register(),
                 child: const Text('Cadastrar'),
@@ -106,6 +153,28 @@ class RegisterPage extends GetView<RegisterController> {
       return null;
     } else {
       return 'Este campo não pode ser vázio!';
+    }
+  }
+
+  String? validatePassword(String value) {
+    if (value.isNotEmpty) {
+      if (value != controller.passwordController.text ||
+          value != controller.confirmPasswordController.text) {
+        return 'As senhas não coincidem!';
+      }
+      return null;
+    } else {
+      return 'Este campo não pode ser vázio!';
+    }
+  }
+
+  String? validateCEP(String value) {
+    if (value.isEmpty) {
+      return 'Este campo não pode ser vázio!';
+    } else if (value.isEmail) {
+      return null;
+    } else {
+      return 'Insira um CEP válido!';
     }
   }
 

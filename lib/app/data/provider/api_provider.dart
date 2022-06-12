@@ -5,12 +5,14 @@ import 'package:verydeli/app/core/settings/settings.dart';
 class APIProvider extends GetConnect {
   // final _storageAuth = GetStorage();
 
-  APIProvider() {
-    httpClient.baseUrl = Settings.baseUrl;
+  APIProvider({String? url}) {
+    httpClient.baseUrl = url ?? Settings.baseUrl + Settings.api;
   }
 
-  Future<Response> getApi(String path) => get(Settings.api + path);
+  Future<Response> getApi(String path, {Map<String, String>? headers}) =>
+      get(path, headers: headers);
 
-  Future<Response> postApi(String path, dynamic data, {Map<String, String>? headers}) =>
-      post(Settings.api + Settings.id + path, data, headers: headers);
+  Future<Response> postApi(String path, dynamic data,
+          {Map<String, String>? headers, String? contentType}) =>
+      post(path, data, headers: headers, contentType: contentType);
 }

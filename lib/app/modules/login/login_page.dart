@@ -17,14 +17,27 @@ class LoginPage extends GetView<LoginController> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Verydeli', style: TextStyle(fontSize: 28)),
+                const Center(child: Text('Verydeli', style: TextStyle(fontSize: 28))),
+                const Center(
+                  child: Text('motoboy', style: TextStyle(fontSize: 16, color: Colors.grey)),
+                ),
+                const SizedBox(height: 50),
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   textCapitalization: TextCapitalization.none,
+                  textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(labelText: 'Email'),
-                  validator: (value) => validateEmail(value!),
+                  // validator: (value) => validateEmail(value!),
                 ),
-                TextFormField(decoration: const InputDecoration(labelText: 'Senha')),
+                const SizedBox(height: 10),
+                Obx(
+                  () => TextFormField(
+                    decoration: const InputDecoration(labelText: 'Senha'),
+                    // validator: (value) => validateNotNull(value!),
+                    obscureText: controller.getIsObscure,
+                  ),
+                ),
+                const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
                     if (controller.formKey.currentState!.validate()) {
@@ -33,9 +46,13 @@ class LoginPage extends GetView<LoginController> {
                   },
                   child: const Text('Conectar'),
                 ),
-                TextButton(
-                  onPressed: () => Get.toNamed('/register'),
-                  child: const Text('registrar'),
+                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () => Get.toNamed('/register'),
+                    child: const Text('criar uma conta'),
+                  ),
                 ),
               ],
             ),
@@ -45,15 +62,21 @@ class LoginPage extends GetView<LoginController> {
     );
   }
 
-  String? validateEmail(String value) {
-    String pattern = r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?)*$";
-    RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value)) {
-      return 'Insira um email válido!';
-    } else {
+  String? validateNotNull(String value) {
+    if (value.isNotEmpty) {
       return null;
+    } else {
+      return 'Este campo não pode ser vázio!';
+    }
+  }
+
+  String? validateEmail(String value) {
+    if (value.isEmpty) {
+      return 'Este campo não pode ser vázio!';
+    } else if (value.isEmail) {
+      return null;
+    } else {
+      return 'Insira um email válido!';
     }
   }
 }
