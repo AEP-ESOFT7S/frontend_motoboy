@@ -23,27 +23,25 @@ class LoginPage extends GetView<LoginController> {
                 ),
                 const SizedBox(height: 50),
                 TextFormField(
+                  controller: controller.emailController,
                   keyboardType: TextInputType.emailAddress,
                   textCapitalization: TextCapitalization.none,
                   textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(labelText: 'Email'),
-                  // validator: (value) => validateEmail(value!),
+                  validator: (value) => validateEmail(value!),
                 ),
                 const SizedBox(height: 10),
                 Obx(
                   () => TextFormField(
+                    controller: controller.passwordController,
                     decoration: const InputDecoration(labelText: 'Senha'),
-                    // validator: (value) => validateNotNull(value!),
+                    validator: (value) => validateNotNull(value!),
                     obscureText: controller.getIsObscure,
                   ),
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: () {
-                    if (controller.formKey.currentState!.validate()) {
-                      Get.offAllNamed('/home');
-                    }
-                  },
+                  onPressed: () => controller.login(),
                   child: const Text('Conectar'),
                 ),
                 const SizedBox(height: 10),

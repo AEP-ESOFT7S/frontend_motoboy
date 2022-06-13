@@ -40,7 +40,7 @@ class RegisterController extends GetxController {
         ),
       )
           .then((value) {
-        Get.offAllNamed('/home');
+        Get.offAllNamed('/login');
         ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(value.message)));
       }).catchError((error) {
         ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(error.message)));

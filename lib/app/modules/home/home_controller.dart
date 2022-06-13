@@ -25,25 +25,25 @@ class HomeController extends GetxController {
   void onInit() async {
     await getLocation();
 
-    await _homeRepository.authorization().then((value) {
-      _storage.write('accessToken', value.result['accessToken']);
+    // await _homeRepository.authorization().then((value) {
+    //   _storage.write('accessToken', value.result['accessToken']);
 
-      Timer.periodic(const Duration(seconds: 30), (Timer t) async {
-        await _homeRepository.polling(value.result['accessToken']).then((value) {
-          setDeliveryNotificationIsVisible = true;
+    //   Timer.periodic(const Duration(seconds: 30), (Timer t) async {
+    //     await _homeRepository.polling(value.result['accessToken']).then((value) {
+    //       setDeliveryNotificationIsVisible = true;
 
-          Timer(const Duration(seconds: 10), () async {
-            setDeliveryNotificationIsVisible = false;
-          });
-        }).catchError((_) {
-          ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(_.toString())));
-        });
-      });
-    }).catchError((_) async {
-      if (_.message != '') {
-        ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(_.message)));
-      }
-    });
+    //       Timer(const Duration(seconds: 10), () async {
+    //         setDeliveryNotificationIsVisible = false;
+    //       });
+    //     }).catchError((_) {
+    //       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(_.toString())));
+    //     });
+    //   });
+    // }).catchError((_) async {
+    //   if (_.message != '') {
+    //     ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(_.message)));
+    //   }
+    // });
 
     super.onInit();
   }

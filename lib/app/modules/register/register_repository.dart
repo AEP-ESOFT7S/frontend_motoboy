@@ -12,13 +12,15 @@ class RegisterRepository extends GetConnect {
     try {
       final response = await _restClient.postApi('/register', registerData.toJson());
 
-      if (response.statusCode != HttpStatus.created) {
-        throw RestClientException('Falha ao registrar usuário!', code: response.statusCode);
-      }
+      switch (response.statusCode) {
+        case HttpStatus.created:
+          return ApiResponse(message: 'Usuário cadastrado com sucesso!');
 
-      return ApiResponse(message: 'Usuário cadastrado com sucesso!');
+        default:
+          throw RestClientException('Falha ao registrar usuário!', code: response.statusCode);
+      }
     } on RestClientException catch (_) {
-      return ApiResponse(message: _.message);
+      throw RestClientException(_.message, code: _.code);
     }
   }
 }
