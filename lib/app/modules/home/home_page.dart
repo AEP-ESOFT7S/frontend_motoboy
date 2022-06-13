@@ -85,7 +85,7 @@ class HomePage extends GetView<HomeController> {
                     rotate: true,
                     builder: (BuildContext context) {
                       return GestureDetector(
-                        child: const Icon(Icons.navigation, color: Colors.blue, size: 20),
+                        child: const Icon(Icons.navigation, color: Colors.blue, size: 26),
                       );
                     },
                   ),
