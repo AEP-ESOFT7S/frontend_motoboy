@@ -131,22 +131,6 @@ class AccountPage extends GetView<AccountController> {
             decoration: const InputDecoration(labelText: 'Email'),
             readOnly: true,
           ),
-          const SizedBox(height: 10),
-          TextFormField(
-            controller: controller.passwordController,
-            textInputAction: TextInputAction.next,
-            obscureText: true,
-            decoration: const InputDecoration(labelText: 'Senha'),
-            readOnly: true,
-          ),
-          const SizedBox(height: 10),
-          TextFormField(
-            controller: controller.confirmPasswordController,
-            obscureText: true,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(labelText: 'Confirmar senha'),
-            readOnly: true,
-          ),
         ],
       ),
     );

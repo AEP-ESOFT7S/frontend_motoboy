@@ -4,6 +4,8 @@ import 'dart:convert';
 class RegisterRequest {
   final String firstName;
   final String lastName;
+  final String cpf;
+  final String phone;
   final String cep;
   final String city;
   final String neighborhood;
@@ -17,6 +19,8 @@ class RegisterRequest {
     required this.firstName,
     required this.lastName,
     required this.cep,
+    required this.cpf,
+    required this.phone,
     required this.city,
     required this.neighborhood,
     required this.address,
@@ -30,6 +34,8 @@ class RegisterRequest {
     return <String, dynamic>{
       'firstName': firstName,
       'lastName': lastName,
+      'cpf': cpf,
+      'phone': phone,
       'cep': cep,
       'city': city,
       'neighborhood': neighborhood,
@@ -45,6 +51,8 @@ class RegisterRequest {
     return RegisterRequest(
       firstName: map['firstName'] as String,
       lastName: map['lastName'] as String,
+      cpf: map['cpf'] as String,
+      phone: map['phone'] as String,
       cep: map['cep'] as String,
       city: map['city'] as String,
       neighborhood: map['neighborhood'] as String,

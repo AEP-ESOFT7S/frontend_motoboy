@@ -15,9 +15,9 @@ class LoginController extends GetxController {
   bool get getIsObscure => _isObscure.value;
   set setIsObscure(bool value) => _isObscure.value = value;
 
-  void login() {
+  void login() async {
     if (formKey.currentState!.validate()) {
-      _loginRepository.login(emailController.text).then(
+      await _loginRepository.login(emailController.text).then(
         (value) {
           Get.offAllNamed('/home');
         },

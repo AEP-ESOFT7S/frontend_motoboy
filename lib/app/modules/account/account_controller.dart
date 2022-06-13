@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:verydeli/app/data/models/register_response.dart';
 
 class AccountController extends GetxController {
   final _storage = GetStorage();
@@ -16,8 +17,27 @@ class AccountController extends GetxController {
   final TextEditingController numberController = TextEditingController();
   final TextEditingController complementController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+
+  @override
+  void onInit() {
+    final String user = _storage.read('userData');
+
+    final json = RegisterResponse.fromJson(user);
+
+    firstNameController.text = json.firstName;
+    lastNameController.text = json.lastName;
+    cpfController.text = json.cpf;
+    phoneController.text = json.phone;
+    cepController.text = json.cep;
+    cityController.text = json.city;
+    neighborhoodController.text = json.neighborhood;
+    addressController.text = json.address;
+    numberController.text = json.number;
+    complementController.text = json.complement;
+    emailController.text = json.email;
+
+    super.onInit();
+  }
 
   final _index = 1.obs;
   int get getCurrentIndex => _index.value;

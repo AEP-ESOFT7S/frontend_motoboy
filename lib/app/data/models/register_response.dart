@@ -4,6 +4,8 @@ class RegisterResponse {
   final String id;
   final String firstName;
   final String lastName;
+  final String cpf;
+  final String phone;
   final String cep;
   final String city;
   final String neighborhood;
@@ -17,6 +19,8 @@ class RegisterResponse {
     required this.id,
     required this.firstName,
     required this.lastName,
+    required this.cpf,
+    required this.phone,
     required this.cep,
     required this.city,
     required this.neighborhood,
@@ -32,6 +36,8 @@ class RegisterResponse {
       '_id': id,
       'firstName': firstName,
       'lastName': lastName,
+      'cpf': cpf,
+      'phone': phone,
       'cep': cep,
       'city': city,
       'neighborhood': neighborhood,
@@ -48,6 +54,8 @@ class RegisterResponse {
       id: map['_id'] ?? '',
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
+      cpf: map['cpf'] ?? '',
+      phone: map['phone'] ?? '',
       cep: map['cep'] ?? '',
       city: map['city'] ?? '',
       neighborhood: map['neighborhood'] ?? '',

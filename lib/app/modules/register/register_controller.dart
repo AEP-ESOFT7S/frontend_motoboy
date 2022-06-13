@@ -29,6 +29,8 @@ class RegisterController extends GetxController {
         RegisterRequest(
           firstName: firstNameController.text,
           lastName: lastNameController.text,
+          cpf: cpfController.text,
+          phone: phoneController.text,
           cep: cepController.text,
           city: cityController.text,
           neighborhood: neighborhoodController.text,
