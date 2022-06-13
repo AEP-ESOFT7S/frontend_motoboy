@@ -39,4 +39,32 @@ class HomeRepository extends GetConnect {
       throw RestClientException(_.message, code: _.code);
     }
   }
+
+  Future<ApiResponse> getRoute(String latLongInitial, String latLongFinal, String token) async {
+    final APIProvider restClientRoute = APIProvider(
+      url: 'https://api.mapbox.com/directions/v5/mapbox/driving',
+    );
+
+    try {
+      final response = await restClientRoute.getApi(
+        '/$latLongInitial;$latLongFinal',
+        query: {
+          'alternatives': 'true',
+          'geometries': 'geojson',
+          'overview': 'simplified',
+          'steps': 'false',
+          'access_token': token,
+        },
+      );
+
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          return ApiResponse(result: response.body["routes"][0]["geometry"]["coordinates"]);
+        default:
+          throw RestClientException('Falha ao calcular rota!', code: response.statusCode);
+      }
+    } on RestClientException catch (_) {
+      throw RestClientException(_.message, code: _.code);
+    }
+  }
 }

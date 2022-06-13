@@ -5,8 +5,11 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:verydeli/app/modules/home/home_repository.dart';
 
 class HomeController extends GetxController {
+  final HomeRepository _homeRepository = HomeRepository();
+
   final Location _location = Location();
 
   final MapController mapController = MapController();
@@ -14,7 +17,10 @@ class HomeController extends GetxController {
   final accessTokenMapBox =
       'pk.eyJ1Ijoic290b3JpdmEiLCJhIjoiY2tnODFyYXB0MDczdTMxcGYyd21vOGx3cCJ9.LF4RX8YJahP0wLMB9qzxBg';
 
-  final deliveryNotificationIsVisible = false.obs;
+  final String urlMapBox =
+      'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic290b3JpdmEiLCJhIjoiY2tnODFyYXB0MDczdTMxcGYyd21vOGx3cCJ9.LF4RX8YJahP0wLMB9qzxBg';
+
+  final deliveryNotificationIsVisible = true.obs;
   get getDeliveryNotificationIsVisible => deliveryNotificationIsVisible.value;
   set setDeliveryNotificationIsVisible(bool value) => deliveryNotificationIsVisible.value = value;
 
@@ -29,25 +35,13 @@ class HomeController extends GetxController {
   int get getCurrentIndex => _index.value;
   set setCurrentIndex(int value) => _index.value = value;
 
-  final _rotation = 0.0.obs;
-  double get getRotation => _rotation.value;
-  set setRotation(double value) => _rotation.value = value;
-
-  final _darkModeMap = false.obs;
-  bool get getIsDarkModeMap => _darkModeMap.value;
-  set setIsDarkModeMap(bool value) => _darkModeMap.value = value;
-
-  final _mapTheme = 'day'.obs;
-  String get getMapTheme => _mapTheme.value;
-  set setMapTheme(String value) => _mapTheme.value = value;
-  void toggleMapTheme() {
-    setMapTheme = getMapTheme == 'day' ? 'night' : 'day';
-    setIsDarkModeMap = !getIsDarkModeMap;
-  }
-
   final _userLocation = LatLng(0.0, 0.0).obs;
   LatLng get getUserLocation => _userLocation.value;
   set setUserLocation(LatLng value) => _userLocation.value = value;
+
+  final _route = <Marker>[].obs;
+  List<Marker> get getRouteMarks => _route;
+  set setRouteMarks(List<Marker> value) => _route.value = value;
 
   Future<void> getUserLocalization() async {
     try {
@@ -75,6 +69,28 @@ class HomeController extends GetxController {
       mapController.move(getUserLocation, mapController.zoom);
     } catch (error) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text(error.toString())));
+    }
+  }
+
+  void getRoute() async {
+    String initialRoute = '${getUserLocation.longitude},${getUserLocation.latitude}';
+    String finalRoute = '-51.926,-23.43815';
+    final result = await _homeRepository.getRoute(initialRoute, finalRoute, accessTokenMapBox);
+
+    for (var element in result.result) {
+      _route.add(
+        Marker(
+          width: 16,
+          height: 16,
+          point: LatLng(element[1], element[0]),
+          rotate: true,
+          builder: (BuildContext context) {
+            return GestureDetector(
+              child: const Icon(Icons.circle, color: Colors.blue, size: 26),
+            );
+          },
+        ),
+      );
     }
   }
 }
