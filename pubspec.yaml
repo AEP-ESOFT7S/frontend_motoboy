@@ -35,12 +35,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.1
   get_storage: ^2.0.3
-  map: ^1.0.1
-  latlng: ^0.1.0
-  cached_network_image: ^3.2.0
+  latlong2: ^0.8.1
   location: ^4.4.0
   brasil_fields: ^1.4.5
-
+  flutter_map: ^0.14.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
