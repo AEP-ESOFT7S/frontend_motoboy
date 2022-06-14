@@ -51,36 +51,38 @@ class HomePage extends GetView<HomeController> {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            FlutterMap(
-              mapController: controller.mapController,
-              options: MapOptions(
-                center: LatLng(-23.426192, -51.938235),
-                zoom: 15.0,
-                maxZoom: 18,
-                minZoom: 1.5,
+            Obx(
+              () => FlutterMap(
+                mapController: controller.mapController,
+                options: MapOptions(
+                  center: LatLng(-23.426192, -51.938235),
+                  zoom: 15.0,
+                  maxZoom: 18,
+                  minZoom: 1.5,
+                ),
+                layers: [
+                  TileLayerOptions(
+                    urlTemplate: controller.urlMapBox,
+                  ),
+                  MarkerLayerOptions(
+                    markers: controller.getRouteMarks.isNotEmpty
+                        ? controller.getRouteMarks
+                        : [
+                            Marker(
+                              width: 16,
+                              height: 16,
+                              point: controller.getUserLocation,
+                              rotate: true,
+                              builder: (BuildContext context) {
+                                return GestureDetector(
+                                  child: const Icon(Icons.navigation, color: Colors.blue, size: 16),
+                                );
+                              },
+                            )
+                          ],
+                  ),
+                ],
               ),
-              layers: [
-                TileLayerOptions(
-                  urlTemplate: controller.urlMapBox,
-                ),
-                MarkerLayerOptions(
-                  markers: controller.getRouteMarks != []
-                      ? controller.getRouteMarks
-                      : [
-                          Marker(
-                            width: 16,
-                            height: 16,
-                            point: controller.getUserLocation,
-                            rotate: true,
-                            builder: (BuildContext context) {
-                              return GestureDetector(
-                                child: const Icon(Icons.navigation, color: Colors.blue, size: 16),
-                              );
-                            },
-                          ),
-                        ],
-                ),
-              ],
             ),
             Obx(
               () => Visibility(

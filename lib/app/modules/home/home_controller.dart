@@ -40,7 +40,7 @@ class HomeController extends GetxController {
   set setUserLocation(LatLng value) => _userLocation.value = value;
 
   final _route = <Marker>[].obs;
-  List<Marker> get getRouteMarks => _route;
+  List<Marker> get getRouteMarks => _route.toList();
   set setRouteMarks(List<Marker> value) => _route.value = value;
 
   Future<void> getUserLocalization() async {
