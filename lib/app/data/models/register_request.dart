@@ -14,6 +14,7 @@ class RegisterRequest {
   final String complement;
   final String email;
   final String password;
+  final String type;
 
   RegisterRequest({
     required this.firstName,
@@ -28,6 +29,7 @@ class RegisterRequest {
     required this.complement,
     required this.email,
     required this.password,
+    required this.type,
   });
 
   Map<String, dynamic> toMap() {
@@ -44,6 +46,7 @@ class RegisterRequest {
       'complement': complement,
       'email': email,
       'password': password,
+      'type': type,
     };
   }
 
@@ -61,6 +64,7 @@ class RegisterRequest {
       complement: map['complement'] as String,
       email: map['email'] as String,
       password: map['password'] as String,
+      type: map['type'] as String,
     );
   }
 

@@ -39,6 +39,7 @@ class RegisterController extends GetxController {
           complement: complementController.text,
           email: emailController.text,
           password: passwordController.text,
+          type: 'motoboy',
         ),
       )
           .then((value) {

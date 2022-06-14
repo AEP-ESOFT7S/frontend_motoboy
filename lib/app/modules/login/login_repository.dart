@@ -17,26 +17,19 @@ class LoginRepository extends GetConnect {
       final response = await _restClient.getApi('/register', query: {'email': email});
 
       switch (response.statusCode) {
-        case HttpStatus.created:
-          await _storage.write('userData', jsonEncode(response.body[0]));
-          String result = response.body[0]['email'];
-          if (result == email) {
-            return ApiResponse();
-          } else {
-            throw RestClientException('Usuário não cadastrado!', code: response.statusCode);
-          }
-
         case HttpStatus.ok:
-          await _storage.write('userData', jsonEncode(response.body[0]));
-          String result = response.body[0]['email'];
-          if (result == email) {
-            return ApiResponse();
-          } else {
-            throw RestClientException('Usuário não cadastrado!', code: response.statusCode);
+          for (var element in response.body) {
+            String resultEmail = element['email'];
+            String resultType = element['type'];
+            if (resultEmail == email && resultType == 'motoboy') {
+              await _storage.write('userData', jsonEncode(element));
+              return ApiResponse();
+            }
           }
+          throw RestClientException('Usuário não cadastrado!', code: response.statusCode);
 
         default:
-          throw RestClientException('Falha ao registrar usuário!', code: response.statusCode);
+          throw RestClientException('Falha ao realizar login!', code: response.statusCode);
       }
     } on RestClientException catch (_) {
       throw RestClientException(_.message, code: _.code);
