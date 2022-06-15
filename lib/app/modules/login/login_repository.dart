@@ -14,17 +14,15 @@ class LoginRepository extends GetConnect {
 
   Future<ApiResponse> login(String email) async {
     try {
-      final response = await _restClient.getApi('/register', query: {'email': email});
+      final response = await _restClient.get('/users/$email');
 
       switch (response.statusCode) {
         case HttpStatus.ok:
-          for (var element in response.body) {
-            String resultEmail = element['email'];
-            String resultType = element['type'];
-            if (resultEmail == email && resultType == 'motoboy') {
-              await _storage.write('userData', jsonEncode(element));
-              return ApiResponse();
-            }
+          String resultEmail = response.body['email'];
+          String resultType = response.body['type'];
+          if (resultEmail == email && resultType == 'motoboy') {
+            await _storage.write('userData', jsonEncode(response.body));
+            return ApiResponse();
           }
           throw RestClientException('Usuário não cadastrado!', code: response.statusCode);
 

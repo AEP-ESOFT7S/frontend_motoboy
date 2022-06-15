@@ -20,21 +20,21 @@ class AccountController extends GetxController {
 
   @override
   void onInit() {
-    final String user = _storage.read('userData');
+    final String json = _storage.read('userData');
 
-    final json = RegisterResponse.fromJson(user);
+    final user = RegisterResponse.fromJson(json);
 
-    firstNameController.text = json.firstName;
-    lastNameController.text = json.lastName;
-    cpfController.text = json.cpf;
-    phoneController.text = json.phone;
-    cepController.text = json.cep;
-    cityController.text = json.city;
-    neighborhoodController.text = json.neighborhood;
-    addressController.text = json.address;
-    numberController.text = json.number;
-    complementController.text = json.complement;
-    emailController.text = json.email;
+    firstNameController.text = user.firstName;
+    lastNameController.text = user.lastName;
+    cpfController.text = user.cpf;
+    phoneController.text = user.phone;
+    cepController.text = user.cep;
+    cityController.text = user.city;
+    neighborhoodController.text = user.neighborhood;
+    addressController.text = user.address;
+    numberController.text = user.number;
+    complementController.text = user.complement;
+    emailController.text = user.email;
 
     super.onInit();
   }
@@ -42,8 +42,4 @@ class AccountController extends GetxController {
   final _index = 1.obs;
   int get getCurrentIndex => _index.value;
   set setCurrentIndex(int value) => _index.value = value;
-
-  final _darkMode = false.obs;
-  bool get getIsDarkMode => _darkMode.value;
-  set setIsDarkMode(bool value) => _darkMode.value = value;
 }
