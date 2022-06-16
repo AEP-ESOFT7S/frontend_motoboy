@@ -78,19 +78,35 @@ class HomeController extends GetxController {
     final result = await _homeRepository.getRoute(initialRoute, finalRoute, accessTokenMapBox);
 
     for (var element in result.result) {
-      _route.add(
-        Marker(
-          width: 16,
-          height: 16,
-          point: LatLng(element[1], element[0]),
-          rotate: true,
-          builder: (BuildContext context) {
-            return GestureDetector(
-              child: const Icon(Icons.circle, color: Colors.blue, size: 26),
-            );
-          },
-        ),
-      );
+      if (element == result.result.last) {
+        _route.add(
+          Marker(
+            width: 16,
+            height: 16,
+            point: LatLng(element[1], element[0]),
+            rotate: true,
+            builder: (BuildContext context) {
+              return GestureDetector(
+                child: const Icon(Icons.flag, color: Colors.blue, size: 26),
+              );
+            },
+          ),
+        );
+      } else {
+        _route.add(
+          Marker(
+            width: 16,
+            height: 16,
+            point: LatLng(element[1], element[0]),
+            rotate: true,
+            builder: (BuildContext context) {
+              return GestureDetector(
+                child: const Icon(Icons.circle, color: Colors.blue, size: 26),
+              );
+            },
+          ),
+        );
+      }
     }
   }
 }

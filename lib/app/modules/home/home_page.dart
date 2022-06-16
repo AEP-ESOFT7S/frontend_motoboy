@@ -99,15 +99,17 @@ class HomePage extends GetView<HomeController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: const [
-                            Text('Nome do restaurante: '),
-                            Text('Distancia: '),
+                            Text('Nome do restaurante: Meu Chefe'),
+                            Text('Distancia: 3 Km'),
                           ],
                         ),
                         ElevatedButton(
-                            onPressed: () {
-                              controller.getRoute();
-                            },
-                            child: const Text('Aceitar'))
+                          onPressed: () {
+                            controller.setDeliveryNotificationIsVisible = false;
+                            controller.getRoute();
+                          },
+                          child: const Text('Aceitar'),
+                        )
                       ],
                     ),
                   ),

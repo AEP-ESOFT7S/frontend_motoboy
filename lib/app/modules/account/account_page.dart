@@ -73,6 +73,27 @@ class AccountPage extends GetView<AccountController> {
             decoration: const InputDecoration(labelText: 'Telefone'),
             readOnly: true,
           ),
+          TextFormField(
+            controller: controller.bankController,
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.name,
+            decoration: const InputDecoration(labelText: 'Banco'),
+            readOnly: true,
+          ),
+          TextFormField(
+            controller: controller.accountController,
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.name,
+            decoration: const InputDecoration(labelText: 'Conta'),
+            readOnly: true,
+          ),
+          TextFormField(
+            controller: controller.agencyController,
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.name,
+            decoration: const InputDecoration(labelText: 'Agencia'),
+            readOnly: true,
+          ),
           const SizedBox(height: 10),
           TextFormField(
             controller: controller.cepController,
